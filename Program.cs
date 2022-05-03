@@ -11,7 +11,7 @@ namespace PairChallenge2
     {
         static void Main(string[] args)
         {
-            EjercioProfesor();
+            //EjercioProfesor();
             PairChallenge();
             Console.ReadKey();
         }
@@ -37,32 +37,48 @@ namespace PairChallenge2
         static void PairChallenge()
         {
             Stack fila = new Stack();
+            int num;
 
-
-            Console.WriteLine("Ingrese cantidad de personas: ");
-            int num = Convert.ToInt32(Console.ReadLine());
-            int[] arrayP = new int[num];
-
-            while (num > 0)
+            do
             {
-                Console.WriteLine("Ingrese edad: ");
-                int numEdad = Convert.ToInt32(Console.ReadLine());
-                fila.Push(numEdad);
+                Console.Write("Ingrese cantidad de personas: ");
+            } while (!Int32.TryParse(Console.ReadLine(), out num) || num < 1);
+
+            int[] arrayP = new int[num]; // creamos arreglo
+
+            while (num > 0) // cargamos PILA
+            {
+                bool validar;
+                int numEdad;
+                string edad = "";
+                do
+                {
+                    validar = true;
+                    Console.Write("Ingrese edad: ");
+                    edad = Console.ReadLine();
+                    if(Int32.TryParse(edad, out numEdad)==false || numEdad < 1)
+                    {
+                        Console.WriteLine("Error");
+                        validar = false;
+                    }
+                } while (validar==false);
+            
+                fila.Push(numEdad); 
                 num--;
             }
-            for (int x = 0; x < arrayP.Length; x++)
+
+            for (int x = 0; x < arrayP.Length; x++) // pasamos de la pila a un arreglo
             {
                 arrayP[x] = (int)fila.Pop();
             }
 
-            Array.Sort(arrayP);
+            Array.Sort(arrayP); // Ordenamos el arreglo
             Array.Reverse(arrayP);
 
-            Console.WriteLine("Personas a pasar: ");
-
-            foreach (int value in arrayP)
+            Console.WriteLine("Personas a pasar: "); // mostramos el arreglo
+            foreach (int value in arrayP) 
             {
-                Console.WriteLine(value);
+                Console.WriteLine("Edad: "+value);
             }
 
         }
